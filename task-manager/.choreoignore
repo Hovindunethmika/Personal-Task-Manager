@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+.env.local
+tasks.db
+*.db
+node_modules
+dist
+build
+.DS_Store
+.idea
+.vscode
+*.log
+README.md

@@ -1,0 +1,52 @@
+schemaVersion: 1.0.0
+
+metadata:
+  name: task-manager
+  description: Personal Task Manager Application
+
+services:
+  backend:
+    serviceType: backend
+    buildPack: dockerfile
+    dockerfile:
+      path: ./Dockerfile
+      baseImage: alpine:latest
+    port: 8080
+    environment:
+      GIN_MODE: release
+      DB_PATH: /app/data/tasks.db
+    resources:
+      memory: 512Mi
+      cpu: 250m
+    replicaCount: 1
+    healthCheck:
+      enabled: true
+      path: /health
+      protocol: http
+      interval: 30
+      timeout: 5
+      retries: 3
+
+  frontend:
+    serviceType: web
+    buildPack: nodejs
+    port: 3000
+    nodeVersion: "18"
+    buildCommand: "npm run build"
+    startCommand: "npm start"
+    environment:
+      REACT_APP_API_URL: ${BACKEND_URL}
+    staticAssets:
+      path: ./build
+    resources:
+      memory: 256Mi
+      cpu: 250m
+
+ingress:
+  routes:
+    - path: "/"
+      service: frontend
+      port: 3000
+    - path: "/api"
+      service: backend
+      port: 8080

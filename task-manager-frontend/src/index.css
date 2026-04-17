@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #F5F0E8;
+  color: #0D0D0D;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #EDE8DF;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8BFB0;
+  border-radius: 3px;
+}
+
+::selection {
+  background: #E8572A;
+  color: #F5F0E8;
+}
+
+@layer components {
+  .task-card {
+    @apply bg-paper-dark border border-black/10 rounded-xl p-5 transition-all duration-200;
+  }
+  .task-card:hover {
+    @apply border-black/20 shadow-md;
+  }
+
+  .btn-primary {
+    @apply bg-ink text-paper font-body font-medium px-5 py-2.5 rounded-lg
+           transition-all duration-150 hover:bg-ink-50 active:scale-95
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply text-muted font-body font-medium px-4 py-2 rounded-lg
+           transition-all duration-150 hover:bg-black/5 active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full bg-paper border border-black/15 rounded-lg px-4 py-2.5
+           font-body text-ink placeholder-muted/60
+           focus:outline-none focus:border-ink focus:ring-2 focus:ring-ink/10
+           transition-all duration-150;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-mono font-medium
+           px-2.5 py-1 rounded-full uppercase tracking-wider;
+  }
+}
