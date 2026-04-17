@@ -1,45 +1,10 @@
 schemaVersion: 1.0.0
-
 metadata:
   name: task-manager-frontend
-  displayName: "Task Manager Frontend"
-  description: "React-based web application for task management"
-  labels:
-    - type:web
-    - language:javascript
-
 source:
   type: docker
-  path: ./Dockerfile
-
+  path: Dockerfile
 port: 3000
-
-environment:
+env:
   - name: REACT_APP_API_URL
     value: ""
-
-resources:
-  requests:
-    memory: 128Mi
-    cpu: 100m
-  limits:
-    memory: 256Mi
-    cpu: 250m
-
-replicas:
-  min: 1
-  max: 2
-
-healthCheck:
-  enabled: true
-  path: /
-  protocol: http
-  interval: 30
-  timeout: 5
-  retries: 3
-  startPeriod: 10
-
-ingress:
-  enabled: true
-  cors:
-    enabled: true
