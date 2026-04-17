@@ -5,6 +5,3 @@ source:
   type: dockerfile
   path: Dockerfile
 port: 3000
-env:
-  - name: REACT_APP_API_URL
-    value: ""
