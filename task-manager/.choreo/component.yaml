@@ -5,3 +5,10 @@ source:
   type: dockerfile
   path: Dockerfile
 port: 8080
+env:
+  - name: PORT
+    value: "8080"
+  - name: GIN_MODE
+    value: release
+  - name: DB_PATH
+    value: /app/data/tasks.db
