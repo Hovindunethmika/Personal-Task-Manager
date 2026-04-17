@@ -3,5 +3,5 @@ metadata:
   name: task-manager-backend
 source:
   type: dockerfile
-  path: ../Dockerfile
+  path: Dockerfile
 port: 8080
