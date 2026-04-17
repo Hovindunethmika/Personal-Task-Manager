@@ -3,6 +3,9 @@ FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
+# Install build dependencies for CGO (required by go-sqlite3)
+RUN apk add --no-cache gcc musl-dev
+
 # Copy go mod files
 COPY go.mod go.sum ./
 
