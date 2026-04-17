@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Hovindunethmika/task-manager/internal/middleware"
+	"github.com/Hovindunethmika/task-manager/internal/models"
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/task-manager/internal/middleware"
-	"github.com/yourusername/task-manager/internal/models"
 	"gorm.io/gorm"
 )
 

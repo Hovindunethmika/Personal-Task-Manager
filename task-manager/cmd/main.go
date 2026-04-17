@@ -4,11 +4,11 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Hovindunethmika/task-manager/config"
+	"github.com/Hovindunethmika/task-manager/internal/database"
+	"github.com/Hovindunethmika/task-manager/internal/handlers"
+	"github.com/Hovindunethmika/task-manager/internal/middleware"
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/task-manager/config"
-	"github.com/yourusername/task-manager/internal/database"
-	"github.com/yourusername/task-manager/internal/handlers"
-	"github.com/yourusername/task-manager/internal/middleware"
 )
 
 func main() {
