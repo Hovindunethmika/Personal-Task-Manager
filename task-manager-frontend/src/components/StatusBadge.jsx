@@ -1,28 +1,16 @@
 import React from "react";
 
-const CONFIG = {
-  pending: {
-    label: "Pending",
-    dot: "bg-amber-400",
-    cls: "bg-amber-100 text-amber-700",
-  },
-  in_progress: {
-    label: "In Progress",
-    dot: "bg-progress",
-    cls: "bg-blue-100 text-blue-700",
-  },
-  done: {
-    label: "Done",
-    dot: "bg-done",
-    cls: "bg-green-100 text-green-700",
-  },
+const MAP = {
+  pending:     { label: "Pending",     cls: "pill-pending",     dot: "#F59E0B" },
+  in_progress: { label: "In Progress", cls: "pill-in_progress", dot: "#06B6D4" },
+  done:        { label: "Done",        cls: "pill-done",        dot: "#10B981" },
 };
 
 export function StatusBadge({ status }) {
-  const c = CONFIG[status] || CONFIG.pending;
+  const c = MAP[status] || MAP.pending;
   return (
-    <span className={`status-badge ${c.cls}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
+    <span className={`status-pill ${c.cls}`}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: c.dot, display: "inline-block" }} />
       {c.label}
     </span>
   );

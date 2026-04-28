@@ -1,49 +1,29 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  content: ["./src/**/*.{js,jsx}", "./public/index.html"],
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Syne'", "sans-serif"],
-        body: ["'DM Sans'", "sans-serif"],
-        mono: ["'DM Mono'", "monospace"],
+        display: ["'Space Grotesk'", "sans-serif"],
+        body: ["'Inter'", "sans-serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
       },
       colors: {
-        ink: {
-          DEFAULT: "#0D0D0D",
-          50: "#1a1a1a",
-          100: "#111111",
+        void: "#080810",
+        surface: { 1: "#0E0E1A", 2: "#13131F", 3: "#1A1A28", 4: "#22223A" },
+        neon: {
+          violet: "#7C3AED", glow: "#A855F7", pink: "#EC4899",
+          cyan: "#06B6D4", green: "#10B981", amber: "#F59E0B",
         },
-        paper: {
-          DEFAULT: "#F5F0E8",
-          dark: "#EDE8DF",
-        },
-        accent: {
-          DEFAULT: "#E8572A",
-          hover: "#D44820",
-        },
-        muted: "#8C8070",
-        done: "#2A7A4B",
-        progress: "#2A5FE8",
+        tx: { primary: "#F0F0FF", secondary: "#9090B0", muted: "#5A5A78" },
       },
       animation: {
-        "slide-up": "slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "fade-in": "fadeIn 0.25s ease forwards",
-        "scale-in": "scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "slide-in": "slideIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards",
+        "fade-up": "fadeUp 0.3s ease forwards",
       },
       keyframes: {
-        slideUp: {
-          from: { opacity: 0, transform: "translateY(16px)" },
-          to: { opacity: 1, transform: "translateY(0)" },
-        },
-        fadeIn: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
-        scaleIn: {
-          from: { opacity: 0, transform: "scale(0.95)" },
-          to: { opacity: 1, transform: "scale(1)" },
-        },
+        slideIn: { from: { opacity: 0, transform: "translateX(-12px)" }, to: { opacity: 1, transform: "translateX(0)" } },
+        fadeUp: { from: { opacity: 0, transform: "translateY(8px)" }, to: { opacity: 1, transform: "translateY(0)" } },
       },
     },
   },
