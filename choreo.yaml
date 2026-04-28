@@ -8,11 +8,9 @@ components:
     type: service
     source:
       type: repository
-      location: .
-      buildType: dockerfile
-    dockerfile:
-      path: task-manager/Dockerfile
-      context: task-manager
+      location: ./task-manager
+    buildType: dockerfile
+    dockerfile: Dockerfile
     ports:
       - containerPort: 8080
         protocol: HTTP
@@ -30,11 +28,9 @@ components:
     type: web
     source:
       type: repository
-      location: .
-      buildType: dockerfile
-    dockerfile:
-      path: task-manager-frontend/Dockerfile
-      context: task-manager-frontend
+      location: ./task-manager-frontend
+    buildType: dockerfile
+    dockerfile: Dockerfile
     ports:
       - containerPort: 3000
         protocol: HTTP
