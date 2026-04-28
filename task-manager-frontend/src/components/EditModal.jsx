@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-const STATUSES = ["pending", "in_progress", "done"];
-const STATUS_LABELS = { pending: "Pending", in_progress: "In Progress", done: "Done" };
+const STATUSES = [
+  { value: "pending",     label: "Pending",     color: "#F59E0B" },
+  { value: "in_progress", label: "In Progress", color: "#06B6D4" },
+  { value: "done",        label: "Done",        color: "#10B981" },
+];
 
 export function EditModal({ task, onSave, onClose }) {
   const [title, setTitle] = useState(task.title);
@@ -10,91 +13,100 @@ export function EditModal({ task, onSave, onClose }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
-  // Close on Escape
   useEffect(() => {
-    const handler = (e) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    const h = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
   }, [onClose]);
 
   const submit = async () => {
-    if (!title.trim()) { setErr("Title is required"); return; }
-    try {
-      setBusy(true);
-      setErr("");
-      await onSave(task.id, title.trim(), note.trim(), status);
-      onClose();
-    } catch (e) {
-      setErr(e.message);
-    } finally {
-      setBusy(false);
-    }
+    if (!title.trim()) { setErr("Title required"); return; }
+    try { setBusy(true); setErr(""); await onSave(task.id, title.trim(), note.trim(), status); onClose(); }
+    catch (e) { setErr(e.message); }
+    finally { setBusy(false); }
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm animate-fade-in"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={e => e.target === e.currentTarget && onClose()}
+      style={{
+        position: "fixed", inset: 0, zIndex: 100,
+        background: "rgba(8,8,16,0.85)",
+        backdropFilter: "blur(8px)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 20,
+        animation: "fadeUp 0.2s ease forwards",
+      }}
     >
-      <div className="bg-paper w-full max-w-md rounded-2xl shadow-2xl animate-scale-in overflow-hidden">
+      <div style={{
+        width: "100%", maxWidth: 480,
+        background: "#0E0E1A",
+        border: "1px solid rgba(124,58,237,0.3)",
+        borderRadius: 20,
+        boxShadow: "0 0 60px rgba(124,58,237,0.2), 0 24px 64px rgba(0,0,0,0.8)",
+        overflow: "hidden",
+        animation: "fadeUp 0.3s cubic-bezier(0.16,1,0.3,1) forwards",
+      }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-black/10">
-          <h2 className="font-display font-bold text-lg">Edit Task</h2>
+        <div style={{
+          padding: "20px 24px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <div>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#7C3AED", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>
+              // edit_task
+            </p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 18, color: "#F0F0FF" }}>
+              Edit Task
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-muted hover:bg-black/5 transition-colors"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </button>
+            style={{
+              width: 32, height: 32, borderRadius: 8,
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "transparent", color: "#9090B0",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", fontSize: 16, lineHeight: 1,
+            }}
+          >✕</button>
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 space-y-4">
-          {err && <p className="text-xs text-accent font-mono">{err}</p>}
+        <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16 }}>
+          {err && <p style={{ color: "#EC4899", fontSize: 12, fontFamily: "monospace" }}>{err}</p>}
 
           <div>
-            <label className="block text-xs font-display font-semibold uppercase tracking-widest text-muted mb-1.5">
-              Title *
-            </label>
-            <input
-              autoFocus
-              className="input-field"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <label style={{ display: "block", fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#5A5A78", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>Title</label>
+            <input autoFocus className="void-input" value={title} onChange={e => setTitle(e.target.value)} />
           </div>
 
           <div>
-            <label className="block text-xs font-display font-semibold uppercase tracking-widest text-muted mb-1.5">
-              Note
-            </label>
-            <textarea
-              className="input-field resize-none"
-              rows={3}
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
+            <label style={{ display: "block", fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#5A5A78", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>Note</label>
+            <textarea className="void-input" rows={3} value={note} onChange={e => setNote(e.target.value)} style={{ resize: "none" }} />
           </div>
 
           <div>
-            <label className="block text-xs font-display font-semibold uppercase tracking-widest text-muted mb-2">
-              Status
-            </label>
-            <div className="flex gap-2">
-              {STATUSES.map((s) => (
+            <label style={{ display: "block", fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#5A5A78", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>Status</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              {STATUSES.map(s => (
                 <button
-                  key={s}
-                  onClick={() => setStatus(s)}
-                  className={`flex-1 py-2 rounded-lg text-xs font-mono font-medium uppercase tracking-wider
-                              border transition-all duration-150
-                              ${status === s
-                                ? "bg-ink text-paper border-ink"
-                                : "bg-transparent text-muted border-black/15 hover:border-black/30"
-                              }`}
+                  key={s.value}
+                  onClick={() => setStatus(s.value)}
+                  style={{
+                    flex: 1, padding: "8px 0",
+                    borderRadius: 10,
+                    border: `1px solid ${status === s.value ? s.color + "60" : "rgba(255,255,255,0.08)"}`,
+                    background: status === s.value ? `${s.color}15` : "transparent",
+                    color: status === s.value ? s.color : "#9090B0",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 11, fontWeight: 500,
+                    letterSpacing: "0.05em", textTransform: "uppercase",
+                    cursor: "pointer", transition: "all 0.15s",
+                  }}
                 >
-                  {STATUS_LABELS[s]}
+                  {s.label}
                 </button>
               ))}
             </div>
@@ -102,10 +114,10 @@ export function EditModal({ task, onSave, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="flex gap-2 justify-end px-6 pb-6">
+        <div style={{ padding: "16px 24px", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", gap: 8, justifyContent: "flex-end" }}>
           <button className="btn-ghost" onClick={onClose}>Cancel</button>
-          <button className="btn-primary" onClick={submit} disabled={busy}>
-            {busy ? "Saving…" : "Save Changes"}
+          <button className="btn-void" onClick={submit} disabled={busy}>
+            {busy ? "Saving…" : "Save Changes →"}
           </button>
         </div>
       </div>

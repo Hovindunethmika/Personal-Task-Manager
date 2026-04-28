@@ -1,5 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || "";
-const BASE = `${API_URL}/api/tasks`;
+const BASE = "/api/tasks";
 
 async function request(url, options = {}) {
   const res = await fetch(url, {

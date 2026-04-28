@@ -2,34 +2,61 @@ import React from "react";
 
 const FILTERS = [
   { value: "", label: "All" },
-  { value: "pending", label: "Pending" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "done", label: "Done" },
+  { value: "pending", label: "Pending", color: "#F59E0B" },
+  { value: "in_progress", label: "In Progress", color: "#06B6D4" },
+  { value: "done", label: "Done", color: "#10B981" },
 ];
 
 export function FilterBar({ active, onChange, counts }) {
   return (
-    <div className="flex gap-1 flex-wrap">
-      {FILTERS.map((f) => (
-        <button
-          key={f.value}
-          onClick={() => onChange(f.value)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body font-medium
-                      transition-all duration-150
-                      ${active === f.value
-                        ? "bg-ink text-paper"
-                        : "text-muted hover:bg-black/5 hover:text-ink"
-                      }`}
-        >
-          {f.label}
-          {counts?.[f.value] !== undefined && (
-            <span className={`text-xs font-mono rounded-full w-4 h-4 flex items-center justify-center
-                              ${active === f.value ? "bg-white/20" : "bg-black/8"}`}>
-              {counts[f.value]}
-            </span>
-          )}
-        </button>
-      ))}
+    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+      {FILTERS.map((f) => {
+        const isActive = active === f.value;
+        return (
+          <button
+            key={f.value}
+            onClick={() => onChange(f.value)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 14px",
+              borderRadius: 100,
+              border: isActive
+                ? `1px solid ${f.color || "rgba(124,58,237,0.6)"}`
+                : "1px solid rgba(255,255,255,0.08)",
+              background: isActive
+                ? f.color
+                  ? `${f.color}18`
+                  : "rgba(124,58,237,0.15)"
+                : "transparent",
+              color: isActive ? f.color || "#A855F7" : "#9090B0",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 13,
+              fontWeight: 500,
+              cursor: "pointer",
+              transition: "all 0.15s",
+            }}
+          >
+            {f.color && isActive && (
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: f.color }} />
+            )}
+            {f.label}
+            {counts?.[f.value] != null && (
+              <span style={{
+                fontSize: 11,
+                fontFamily: "'JetBrains Mono', monospace",
+                background: "rgba(255,255,255,0.1)",
+                padding: "1px 6px",
+                borderRadius: 100,
+                color: "inherit",
+              }}>
+                {counts[f.value]}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
