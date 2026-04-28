@@ -2,3 +2,42 @@ schemaVersion: 1.0.0
 metadata:
   name: task-manager
   description: Personal Task Manager Application
+
+components:
+  - name: task-manager-backend
+    type: service
+    source:
+      type: repository
+      location: .
+      buildType: dockerfile
+    dockerfile:
+      path: task-manager/Dockerfile
+      context: task-manager
+    ports:
+      - containerPort: 8080
+        protocol: HTTP
+    env:
+      - name: PORT
+        value: "8080"
+      - name: GIN_MODE
+        value: release
+      - name: DB_PATH
+        value: /app/data/tasks.db
+      - name: ALLOWED_ORIGINS
+        value: "*"
+
+  - name: task-manager-frontend
+    type: web
+    source:
+      type: repository
+      location: .
+      buildType: dockerfile
+    dockerfile:
+      path: task-manager-frontend/Dockerfile
+      context: task-manager-frontend
+    ports:
+      - containerPort: 3000
+        protocol: HTTP
+    env:
+      - name: REACT_APP_API_URL
+        value: http://localhost:8080
